@@ -328,28 +328,143 @@
     });
   });
 
-  // ─── Form ───
+  // ─── Form → Unlock Demo ───
   const form = document.getElementById('signup-form');
-  if (form) {
+  const ctaGate = document.getElementById('cta-gate');
+  const demoUnlocked = document.getElementById('demo-unlocked');
+
+  if (form && ctaGate && demoUnlocked) {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const btn = form.querySelector('button[type="submit"]');
       const data = Object.fromEntries(new FormData(form));
-      btn.innerHTML = '<span>Joining...</span>';
+      btn.innerHTML = '<span>Unlocking demo...</span>';
       btn.disabled = true;
 
       try {
-        // TODO: Wire to Supabase Edge Function
-        await new Promise(r => setTimeout(r, 800));
-        btn.innerHTML = '<span>✓ You\'re on the list!</span>';
-        btn.style.background = '#4ade80';
-        form.reset();
-        setTimeout(() => { btn.innerHTML = '<span>Join the Beta — It\'s Free →</span>'; btn.style.background = ''; btn.disabled = false; }, 3000);
+        // TODO: Wire to Supabase Edge Function to capture email
+        await new Promise(r => setTimeout(r, 600));
+
+        // Hide gate, show demo
+        ctaGate.style.display = 'none';
+        demoUnlocked.style.display = 'block';
+        demoUnlocked.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        // Store access in localStorage
+        localStorage.setItem('soundboy_demo_access', JSON.stringify({ email: data.email, ts: Date.now() }));
       } catch {
         btn.innerHTML = '<span>Error — try again</span>';
         btn.style.background = '#ef4444';
-        setTimeout(() => { btn.innerHTML = '<span>Join the Beta — It\'s Free →</span>'; btn.style.background = ''; btn.disabled = false; }, 2500);
+        setTimeout(() => { btn.innerHTML = '<span>Get Instant Access →</span>'; btn.style.background = ''; btn.disabled = false; }, 2000);
       }
+    });
+
+    // Check if already unlocked
+    const existing = localStorage.getItem('soundboy_demo_access');
+    if (existing) {
+      ctaGate.style.display = 'none';
+      demoUnlocked.style.display = 'block';
+    }
+  }
+
+  // ─── Demo Experience ───
+  const demoUpload = document.getElementById('demo-upload-zone');
+  const demoProcessing = document.getElementById('demo-processing');
+  const demoResults = document.getElementById('demo-results');
+  const demoDrop = document.getElementById('demo-drop');
+  const demoAgain = document.getElementById('demo-again');
+
+  function runDemoProcessing(sampleName) {
+    if (!demoUpload || !demoProcessing || !demoResults) return;
+
+    demoUpload.style.display = 'none';
+    demoProcessing.style.display = 'block';
+    demoResults.style.display = 'none';
+
+    const steps = demoProcessing.querySelectorAll('.proc-step');
+    const metas = {
+      hiphop: { text: 'Hip-Hop · 142 BPM · F minor · -14 LUFS', decisions: [
+        'Cut 4dB at 250Hz on vocals (mud removal)',
+        'Boosted 2dB shelf at 8kHz (vocal presence)',
+        'Side-chained bass to kick at 80Hz',
+        'Added 1.4s plate reverb (pre-delay 35ms)',
+        'Compressed drums 3:1 with 10ms attack'
+      ]},
+      worship: { text: 'Gospel/Worship · 76 BPM · G major · -16 LUFS', decisions: [
+        'Widened keys to 85% stereo spread',
+        'Gentle 2:1 compression on vocals (warm character)',
+        'Added 2.8s hall reverb for spaciousness',
+        'Boosted 1.5dB at 400Hz for body warmth',
+        'Ducked keys 2dB under vocal phrases'
+      ]},
+      band: { text: 'Rock/Live Band · 120 BPM · A major · -12 LUFS', decisions: [
+        'Tightened kick at 60Hz with high-pass on guitars',
+        'Parallel compressed drums for punch',
+        'Cut 3dB at 2.5kHz on cymbals (harshness)',
+        'Added 0.8s room verb on snare',
+        'Stereo-widened guitars, centered bass and kick'
+      ]},
+      custom: { text: 'Analyzing... · Detected: 128 BPM · D minor · -14 LUFS', decisions: [
+        'Auto-detected genre characteristics',
+        'Applied context-aware EQ based on frequency analysis',
+        'Balanced stereo field across all elements',
+        'Set optimal compression for detected dynamics',
+        'Mastered to -14 LUFS for streaming platforms'
+      ]}
+    };
+
+    const meta = metas[sampleName] || metas.custom;
+    let stepIdx = 0;
+
+    const stepInterval = setInterval(() => {
+      if (stepIdx > 0) steps[stepIdx - 1].classList.remove('active');
+      if (stepIdx > 0) steps[stepIdx - 1].classList.add('done');
+
+      if (stepIdx >= steps.length) {
+        clearInterval(stepInterval);
+        setTimeout(() => {
+          demoProcessing.style.display = 'none';
+          demoResults.style.display = 'block';
+
+          // Fill in results
+          const metaEl = document.getElementById('demo-result-meta');
+          const decisionsEl = document.getElementById('demo-ai-decisions');
+          if (metaEl) metaEl.textContent = meta.text;
+          if (decisionsEl) {
+            decisionsEl.innerHTML = meta.decisions.map(d => `<li>${d}</li>`).join('');
+          }
+        }, 500);
+        return;
+      }
+
+      steps[stepIdx].classList.add('active');
+      stepIdx++;
+    }, 1200);
+  }
+
+  // Sample buttons
+  document.querySelectorAll('.demo-sample-btn').forEach(btn => {
+    btn.addEventListener('click', () => runDemoProcessing(btn.dataset.sample));
+  });
+
+  // Drag and drop
+  if (demoDrop) {
+    ['dragenter', 'dragover'].forEach(evt => {
+      demoDrop.addEventListener(evt, (e) => { e.preventDefault(); demoDrop.classList.add('dragover'); });
+    });
+    ['dragleave', 'drop'].forEach(evt => {
+      demoDrop.addEventListener(evt, (e) => { e.preventDefault(); demoDrop.classList.remove('dragover'); });
+    });
+    demoDrop.addEventListener('drop', () => runDemoProcessing('custom'));
+    demoDrop.addEventListener('click', () => runDemoProcessing('custom'));
+  }
+
+  // Try again
+  if (demoAgain) {
+    demoAgain.addEventListener('click', () => {
+      if (demoUpload) demoUpload.style.display = 'block';
+      if (demoProcessing) demoProcessing.style.display = 'none';
+      if (demoResults) demoResults.style.display = 'none';
     });
   }
 

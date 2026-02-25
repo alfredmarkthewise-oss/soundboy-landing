@@ -562,39 +562,119 @@
       </div>
     </section>
 
-    <!-- ===== WAITLIST CTA ===== -->
-    <section class="cta" id="waitlist" aria-label="Join waitlist">
-      <div class="cta-inner">
+    <!-- ===== ACCESS CTA ===== -->
+    <section class="cta" id="waitlist" aria-label="Try the demo">
+      <!-- Gate: email form -->
+      <div class="cta-inner" id="cta-gate">
         <div class="cta-content">
-          <h2 class="cta-title">Your next mix starts here.</h2>
-          <p class="cta-sub">Join the beta. It's free, it's fast, and you'll wonder how you mixed without it.</p>
+          <h2 class="cta-title">Try it right now.</h2>
+          <p class="cta-sub">Enter your email and get instant access to the Soundboy demo. No download. No credit card. Just drop a track and hear what AI mixing sounds like.</p>
           <form class="cta-form" id="signup-form">
-            <div class="form-group">
-              <label for="s-name" class="sr-only">Name</label>
-              <input type="text" id="s-name" name="name" placeholder="Your name" required autocomplete="name">
-            </div>
             <div class="form-group">
               <label for="s-email" class="sr-only">Email</label>
               <input type="email" id="s-email" name="email" placeholder="you@email.com" required autocomplete="email">
             </div>
             <button type="submit" class="btn btn-primary btn-block btn-glow">
-              <span>Join the Beta — It's Free →</span>
+              <span>Get Instant Access →</span>
             </button>
           </form>
-          <p class="cta-fine">No credit card. Unsubscribe anytime. Early members get locked-in pricing when we launch.</p>
+          <p class="cta-fine">Free during beta · No credit card · Instant demo access</p>
         </div>
-
-        <!-- Visual reinforcement -->
         <div class="cta-visual" aria-hidden="true">
           <div class="cta-mockup-mini">
-            <div class="cmm-header">
-              <div class="cmm-dots"><span></span><span></span><span></span></div>
-            </div>
+            <div class="cmm-header"><div class="cmm-dots"><span></span><span></span><span></span></div></div>
             <div class="cmm-body">
               <div class="cmm-wave"></div>
               <div class="cmm-wave w2"></div>
               <div class="cmm-wave w3"></div>
               <div class="cmm-ai">✓ Mix complete — ready to export</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Unlocked: Interactive Demo -->
+      <div class="demo-unlocked" id="demo-unlocked" style="display:none">
+        <div class="demo-welcome">
+          <div class="demo-welcome-check">✓</div>
+          <h2>You're in. Let's mix.</h2>
+          <p>Drop an audio file below — or try one of our sample tracks.</p>
+        </div>
+
+        <div class="demo-studio">
+          <!-- Upload zone -->
+          <div class="demo-upload" id="demo-upload-zone">
+            <div class="demo-drop-area" id="demo-drop">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+              <p>Drag & drop your audio file</p>
+              <span class="demo-drop-formats">WAV · MP3 · FLAC · AIFF (max 30s for demo)</span>
+              <span class="demo-drop-or">— or —</span>
+              <div class="demo-samples">
+                <button class="demo-sample-btn" data-sample="hiphop">🎤 Hip-Hop Vocal</button>
+                <button class="demo-sample-btn" data-sample="worship">🎹 Worship Keys</button>
+                <button class="demo-sample-btn" data-sample="band">🥁 Live Band</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Processing animation (shows after upload) -->
+          <div class="demo-processing" id="demo-processing" style="display:none">
+            <div class="demo-proc-ring">
+              <svg viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="45" fill="none" stroke="var(--border)" stroke-width="3"/>
+                <circle cx="50" cy="50" r="45" fill="none" stroke="var(--accent)" stroke-width="3" stroke-dasharray="200 283" class="proc-spinner"/>
+              </svg>
+            </div>
+            <div class="demo-proc-steps" id="demo-proc-steps">
+              <div class="proc-step active" data-step="analyze">
+                <span class="proc-dot"></span>
+                <span>Analyzing audio...</span>
+              </div>
+              <div class="proc-step" data-step="genre">
+                <span class="proc-dot"></span>
+                <span>Detecting genre & key...</span>
+              </div>
+              <div class="proc-step" data-step="mix">
+                <span class="proc-dot"></span>
+                <span>Applying AI mix...</span>
+              </div>
+              <div class="proc-step" data-step="master">
+                <span class="proc-dot"></span>
+                <span>Mastering for Spotify...</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Results (shows after processing) -->
+          <div class="demo-results" id="demo-results" style="display:none">
+            <div class="demo-result-header">
+              <div class="demo-result-check">✓</div>
+              <div>
+                <h3>Mix Complete</h3>
+                <p id="demo-result-meta">Hip-Hop · 142 BPM · F minor · -14 LUFS</p>
+              </div>
+            </div>
+
+            <div class="demo-result-ai">
+              <h4>AI Decisions Made:</h4>
+              <ul id="demo-ai-decisions">
+                <li>Cut 4dB at 250Hz on vocals (mud removal)</li>
+                <li>Boosted 2dB shelf at 8kHz (vocal presence)</li>
+                <li>Side-chained bass to kick at 80Hz</li>
+                <li>Added 1.4s plate reverb on vocals (pre-delay 35ms)</li>
+                <li>Compressed drums 3:1 with 10ms attack</li>
+              </ul>
+            </div>
+
+            <div class="demo-result-memory">
+              <span class="memory-icon">◈</span>
+              <p><strong>Sound Memory:</strong> This is your first session. After 5 mixes, Soundboy will learn your preferences and apply them automatically.</p>
+            </div>
+
+            <div class="demo-result-cta">
+              <p>Want the full version? Unlimited mixes, stem separation, natural language control.</p>
+              <a href="#pricing" class="btn btn-primary">See Pricing →</a>
+              <button class="btn btn-ghost" id="demo-again">Mix Another Track</button>
             </div>
           </div>
         </div>
