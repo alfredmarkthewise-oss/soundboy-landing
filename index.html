@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Soundboy.AI — Drop your track. Get a pro mix.</title>
+  <meta name="description" content="AI mixing that actually listens. Drop in stems, get back a professional mix in 30 seconds. Free during beta.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Soundboy.AI — AI mixing that actually listens.">
+  <meta property="og:description" content="Drop in stems, get back a professional mix in 30 seconds. Free during beta.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://soundboy.ai">
+  <meta property="og:image" content="/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◉</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="src/styles.css">
+
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Soundboy.AI","applicationCategory":"MultimediaApplication","operatingSystem":"Web","description":"AI-powered audio production — intelligent mixing, mastering, and sound design.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD","description":"Free during beta"}}
+  </script>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <!-- Nav -->
+  <nav class="nav" role="navigation" aria-label="Main">
+    <div class="nav-brand">
+      <span class="nav-logo" aria-hidden="true">◉</span>
+      <span class="nav-name">Soundboy<span class="accent">.AI</span></span>
+    </div>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#memory">Sound Memory</a>
+      <a href="#how-it-works">How It Works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#waitlist" class="nav-cta">Join Beta →</a>
+    </div>
+  </nav>
+
+  <main id="main">
+
+    <!-- ===== HERO ===== -->
+    <section class="hero">
+      <div class="hero-bg"><canvas id="waveform-bg" aria-hidden="true"></canvas></div>
+
+      <!-- Floating particles -->
+      <div class="hero-particles" aria-hidden="true">
+        <div class="particle p1"></div>
+        <div class="particle p2"></div>
+        <div class="particle p3"></div>
+        <div class="particle p4"></div>
+        <div class="particle p5"></div>
+      </div>
+
+      <div class="hero-inner">
+        <div class="hero-content">
+          <div class="hero-badge">
+            <span class="badge-dot"></span>
+            <span>Beta is live — <strong>free</strong> for early members</span>
+          </div>
+          <h1 class="hero-title">Drop your track.<br><span class="accent">Get a pro mix.</span></h1>
+          <p class="hero-sub">Upload stems. Soundboy analyzes your genre, key, and arrangement — then mixes it like a real engineer would. And it <em>remembers</em> your sound. Every session, it gets better.</p>
+          <div class="hero-actions">
+            <a href="#waitlist" class="btn btn-primary btn-glow">
+              <span>Start Mixing Free</span>
+              <span class="btn-arrow">→</span>
+            </a>
+            <button class="btn btn-ghost" id="demo-btn">
+              <span class="btn-play-icon" aria-hidden="true">▶</span>
+              <span>Hear the difference</span>
+            </button>
+          </div>
+          <!-- Live-feeling social proof -->
+          <div class="hero-proof">
+            <div class="proof-avatars" aria-hidden="true">
+              <div class="avatar a1">JR</div>
+              <div class="avatar a2">SK</div>
+              <div class="avatar a3">DM</div>
+              <div class="avatar a4">TC</div>
+              <div class="avatar a5">+</div>
+            </div>
+            <p class="proof-text"><strong data-target="847" class="proof-count">0</strong> producers already in the beta</p>
+          </div>
+        </div>
+
+        <!-- Interactive Product Mockup -->
+        <div class="hero-product" id="hero-mockup" role="img" aria-label="Soundboy.AI studio interface">
+          <div class="product-mockup" id="mockup">
+            <div class="mockup-header">
+              <div class="mockup-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+              <span class="mockup-title">Soundboy.AI — Session: Late Night Vibes</span>
+              <div class="mockup-memory"><span class="memory-icon">◈</span> 47 sessions learned</div>
+              <div class="mockup-status"><span class="status-dot"></span> AI Active</div>
+            </div>
+            <div class="mockup-body">
+              <!-- Track lanes with interactive hover -->
+              <div class="mockup-tracks" id="mock-tracks">
+                <div class="m-track" data-track="vocals">
+                  <span class="m-track-name">Vocals</span>
+                  <div class="m-waveform" style="--color: var(--accent)">
+                    <div class="m-playhead"></div>
+                  </div>
+                  <div class="m-meter"><div class="m-meter-fill" style="--lvl: 78%"></div></div>
+                  <button class="m-solo" aria-label="Solo vocals">S</button>
+                </div>
+                <div class="m-track" data-track="drums">
+                  <span class="m-track-name">Drums</span>
+                  <div class="m-waveform" style="--color: var(--warm)">
+                    <div class="m-playhead"></div>
+                  </div>
+                  <div class="m-meter"><div class="m-meter-fill" style="--lvl: 85%"></div></div>
+                  <button class="m-solo" aria-label="Solo drums">S</button>
+                </div>
+                <div class="m-track" data-track="bass">
+                  <span class="m-track-name">Bass</span>
+                  <div class="m-waveform" style="--color: var(--cool)">
+                    <div class="m-playhead"></div>
+                  </div>
+                  <div class="m-meter"><div class="m-meter-fill" style="--lvl: 65%"></div></div>
+                  <button class="m-solo" aria-label="Solo bass">S</button>
+                </div>
+                <div class="m-track" data-track="synths">
+                  <span class="m-track-name">Synths</span>
+                  <div class="m-waveform" style="--color: var(--secondary)">
+                    <div class="m-playhead"></div>
+                  </div>
+                  <div class="m-meter"><div class="m-meter-fill" style="--lvl: 55%"></div></div>
+                  <button class="m-solo" aria-label="Solo synths">S</button>
+                </div>
+                <div class="m-track" data-track="fx">
+                  <span class="m-track-name">FX</span>
+                  <div class="m-waveform" style="--color: var(--muted)">
+                    <div class="m-playhead"></div>
+                  </div>
+                  <div class="m-meter"><div class="m-meter-fill" style="--lvl: 42%"></div></div>
+                  <button class="m-solo" aria-label="Solo effects">S</button>
+                </div>
+              </div>
+
+              <!-- AI Suggestion with typing effect -->
+              <div class="mockup-ai-bar" id="ai-bar">
+                <span class="ai-dot" aria-hidden="true"></span>
+                <span class="ai-msg" id="ai-msg"></span>
+                <span class="ai-cursor" aria-hidden="true">|</span>
+              </div>
+
+              <!-- Live spectrum -->
+              <div class="mockup-spectrum" id="mock-spectrum" aria-hidden="true"></div>
+            </div>
+
+            <!-- Transport bar -->
+            <div class="mockup-transport">
+              <button class="transport-btn" id="transport-play" aria-label="Play">▶</button>
+              <div class="transport-time">0:00 <span class="transport-dim">/ 3:42</span></div>
+              <div class="transport-progress">
+                <div class="transport-bar"></div>
+              </div>
+              <span class="transport-bpm">142 BPM</span>
+              <span class="transport-key">F min</span>
+            </div>
+          </div>
+
+          <!-- Glow ring behind mockup -->
+          <div class="mockup-glow" aria-hidden="true"></div>
+        </div>
+      </div>
+
+      <div class="scroll-cue" aria-hidden="true">
+        <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+      </div>
+    </section>
+
+    <!-- ===== BEFORE/AFTER DEMO ===== -->
+    <section class="demo-section" id="demo" aria-label="Before and after comparison">
+      <div class="section-header">
+        <p class="section-tag">Hear It</p>
+        <h2 class="section-title">Same track. <span class="accent">Different universe.</span></h2>
+        <p class="section-sub">Drag the slider to hear what Soundboy does to a raw mix.</p>
+      </div>
+
+      <div class="demo-player">
+        <div class="demo-card demo-before">
+          <span class="demo-label">Before</span>
+          <div class="demo-wave-static before-wave" aria-hidden="true"></div>
+          <p class="demo-desc">Raw stems, no processing</p>
+        </div>
+        <div class="demo-slider-wrap">
+          <input type="range" min="0" max="100" value="50" class="demo-slider" id="demo-slider" aria-label="Mix comparison slider">
+          <div class="demo-slider-label" id="demo-slider-label">
+            <span class="demo-pct" id="demo-pct">50%</span>
+            <span>Soundboy Mix</span>
+          </div>
+        </div>
+        <div class="demo-card demo-after">
+          <span class="demo-label accent">After</span>
+          <div class="demo-wave-static after-wave" aria-hidden="true"></div>
+          <p class="demo-desc">AI-mixed, mastered, ready</p>
+        </div>
+      </div>
+      <p class="demo-note">🔊 Audio demo coming with public beta. Visual preview only.</p>
+    </section>
+
+    <!-- ===== FEATURES ===== -->
+    <section class="features" id="features" aria-label="Features">
+      <div class="section-header">
+        <p class="section-tag">Why Soundboy</p>
+        <h2 class="section-title">Not presets. <span class="accent">Not guessing.</span><br>Actually listening.</h2>
+        <p class="section-sub">Most AI mixing slaps a curve on your track. Soundboy hears what's around every element — and makes space for it.</p>
+      </div>
+
+      <div class="feature-grid">
+        <!-- Big feature: Context-aware mixing -->
+        <div class="f-card f-large">
+          <div class="f-visual">
+            <div class="context-demo" aria-hidden="true">
+              <div class="ctx-track">
+                <span>Vocal</span>
+                <div class="ctx-eq">
+                  <svg viewBox="0 0 120 40" class="eq-curve"><path d="M0 20 Q15 25 30 18 Q50 8 60 20 Q75 32 90 15 Q105 5 120 20" fill="none" stroke="var(--accent)" stroke-width="2"/></svg>
+                </div>
+              </div>
+              <div class="ctx-track">
+                <span>Bass</span>
+                <div class="ctx-eq">
+                  <svg viewBox="0 0 120 40" class="eq-curve"><path d="M0 20 Q15 10 30 22 Q50 30 60 20 Q75 12 90 25 Q105 35 120 20" fill="none" stroke="var(--cool)" stroke-width="2"/></svg>
+                </div>
+              </div>
+              <div class="ctx-arrow">↕</div>
+              <div class="ctx-result">
+                <span class="accent">AI carves space automatically</span>
+              </div>
+            </div>
+          </div>
+          <div class="f-text">
+            <h3>Context-Aware Mixing</h3>
+            <p>Soundboy doesn't EQ your vocal the same way every time. It hears the kick, the pad, the room — and carves space dynamically. Every decision considers the full mix.</p>
+          </div>
+        </div>
+
+        <div class="f-card">
+          <div class="f-icon-wrap"><div class="f-icon-spectrum" aria-hidden="true"></div></div>
+          <h3>Genre Intelligence</h3>
+          <p>Trained on 100K+ pro mixes across 40+ genres. Hip-hop bass gets different treatment than jazz upright. It knows.</p>
+        </div>
+
+        <div class="f-card">
+          <div class="f-icon-wrap">
+            <div class="f-stems" aria-hidden="true">
+              <div class="f-stem" style="--c:var(--accent);--w:100%"></div>
+              <div class="f-stem" style="--c:var(--warm);--w:85%"></div>
+              <div class="f-stem" style="--c:var(--cool);--w:70%"></div>
+              <div class="f-stem" style="--c:var(--secondary);--w:55%"></div>
+            </div>
+          </div>
+          <h3>Stem Separation</h3>
+          <p>Upload a stereo mix, get vocals, drums, bass, and instruments back. Then mix each stem independently.</p>
+        </div>
+
+        <div class="f-card">
+          <div class="f-icon-wrap">
+            <div class="chat-bubble" aria-hidden="true">"Make it warmer"</div>
+          </div>
+          <h3>Plain English Control</h3>
+          <p>"More space on the vocals." "Tighten the low end." "Make it sound like Blonde-era Frank Ocean." It understands intent.</p>
+        </div>
+
+        <!-- Wide: Mastering -->
+        <div class="f-card f-wide">
+          <div class="f-meters" aria-hidden="true">
+            <div class="plat-meter">
+              <span>Spotify</span>
+              <div class="plat-bar"><div class="plat-fill" style="--w:72%"><span>-14 LUFS</span></div></div>
+            </div>
+            <div class="plat-meter">
+              <span>Apple Music</span>
+              <div class="plat-bar"><div class="plat-fill" style="--w:68%"><span>-16 LUFS</span></div></div>
+            </div>
+            <div class="plat-meter">
+              <span>YouTube</span>
+              <div class="plat-bar"><div class="plat-fill" style="--w:65%"><span>-13 LUFS</span></div></div>
+            </div>
+          </div>
+          <div class="f-text">
+            <h3>Platform-Ready Mastering</h3>
+            <p>One-click export with correct LUFS, true-peak limiting, and codec-aware processing for every streaming platform. No guessing if your master will clip.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SOUND MEMORY (Three-Tier Architecture) ===== -->
+    <section class="memory-section" id="memory" aria-label="Sound Memory">
+      <div class="section-header">
+        <p class="section-tag">Sound Memory™</p>
+        <h2 class="section-title">It remembers <em>you</em>.<br><span class="accent">Every session compounds.</span></h2>
+        <p class="section-sub">Most AI tools start from zero every time. Soundboy has a three-tier memory architecture that learns your preferences, your genre tendencies, and your sonic fingerprint — then applies them automatically.</p>
+      </div>
+
+      <div class="memory-arch">
+        <!-- Tier 1: Session Context -->
+        <div class="mem-tier" data-tier="1">
+          <div class="mem-tier-header">
+            <div class="mem-tier-badge t1">T1</div>
+            <h3>Session Context</h3>
+          </div>
+          <div class="mem-tier-body">
+            <p class="mem-desc">Active during your current session. Soundboy holds every decision in working memory — so when you adjust vocals, it re-evaluates bass, drums, and space in real time.</p>
+            <div class="mem-visual" aria-hidden="true">
+              <div class="mem-nodes">
+                <div class="mem-node mn-active">Vocal EQ</div>
+                <div class="mem-node mn-active">Bass cut</div>
+                <div class="mem-node mn-active">Reverb</div>
+                <div class="mem-connector"></div>
+              </div>
+              <div class="mem-label-tag">Live · Zero latency</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tier 2: Style Profile -->
+        <div class="mem-tier mem-tier-featured" data-tier="2">
+          <div class="mem-tier-header">
+            <div class="mem-tier-badge t2">T2</div>
+            <h3>Style Profile</h3>
+            <span class="mem-tier-chip">The magic</span>
+          </div>
+          <div class="mem-tier-body">
+            <p class="mem-desc">Built across sessions. Soundboy learns that <em>you</em> like warm vocals, tight low end, and wide synths. It learns your go-to reference curves, your loudness preferences, your genre splits. After 5 sessions, it feels like your engineer.</p>
+            <div class="mem-visual" aria-hidden="true">
+              <div class="mem-profile">
+                <div class="mem-pref">
+                  <span class="mp-label">Vocal warmth</span>
+                  <div class="mp-bar"><div class="mp-fill" style="--w:82%"></div></div>
+                </div>
+                <div class="mem-pref">
+                  <span class="mp-label">Low-end tightness</span>
+                  <div class="mp-bar"><div class="mp-fill" style="--w:91%"></div></div>
+                </div>
+                <div class="mem-pref">
+                  <span class="mp-label">Stereo width</span>
+                  <div class="mp-bar"><div class="mp-fill" style="--w:68%"></div></div>
+                </div>
+                <div class="mem-pref">
+                  <span class="mp-label">Compression style</span>
+                  <div class="mp-bar"><div class="mp-fill" style="--w:55%"></div></div>
+                  <span class="mp-tag">Gentle</span>
+                </div>
+              </div>
+              <div class="mem-label-tag">Learned · Grows over time</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tier 3: Reference Library -->
+        <div class="mem-tier" data-tier="3">
+          <div class="mem-tier-header">
+            <div class="mem-tier-badge t3">T3</div>
+            <h3>Reference Library</h3>
+          </div>
+          <div class="mem-tier-body">
+            <p class="mem-desc">Your entire history, searchable. "Mix this like that track I did in January." Soundboy retrieves the exact processing chain, applies it as a starting point, and adapts it to the new audio.</p>
+            <div class="mem-visual" aria-hidden="true">
+              <div class="mem-history">
+                <div class="mem-hist-item">
+                  <span class="mh-date">Jan 12</span>
+                  <span class="mh-name">Late Night Vibes</span>
+                  <span class="mh-genre">Hip-Hop</span>
+                </div>
+                <div class="mem-hist-item">
+                  <span class="mh-date">Jan 28</span>
+                  <span class="mh-name">Sunday Morning</span>
+                  <span class="mh-genre">Gospel</span>
+                </div>
+                <div class="mem-hist-item">
+                  <span class="mh-date">Feb 5</span>
+                  <span class="mh-name">Neon Dreams</span>
+                  <span class="mh-genre">Synthwave</span>
+                </div>
+              </div>
+              <div class="mem-label-tag">Archived · Searchable · Reusable</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Compound statement -->
+      <div class="memory-compound">
+        <div class="compound-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M2 20 L6 12 L10 16 L14 6 L18 10 L22 2"/></svg>
+        </div>
+        <p><strong class="accent">Mix #1 is good. Mix #50 is magic.</strong> The more you use Soundboy, the less you have to tell it. It converges on your sound — then surprises you with choices you didn't know you wanted.</p>
+      </div>
+    </section>
+
+    <!-- ===== HOW IT WORKS (animated timeline) ===== -->
+    <section class="workflow" id="how-it-works" aria-label="How it works">
+      <div class="section-header">
+        <p class="section-tag">Workflow</p>
+        <h2 class="section-title">Four steps. <span class="accent">Thirty seconds.</span></h2>
+        <p class="section-sub">From raw audio to release-ready master — without touching a single knob.</p>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-line" aria-hidden="true"><div class="timeline-progress" id="timeline-progress"></div></div>
+
+        <div class="tl-step" data-step="1">
+          <div class="tl-dot"><span>1</span></div>
+          <div class="tl-card">
+            <div class="tl-visual">
+              <div class="drop-zone" aria-hidden="true">
+                <div class="drop-icon">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                </div>
+                <p>Drag & drop or browse</p>
+                <span class="drop-formats">WAV · FLAC · MP3 · AIFF · Stems</span>
+              </div>
+            </div>
+            <h3>Upload anything</h3>
+            <p>Stems, stereo mixes, raw recordings. Any format, any sample rate. Just drop it in.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-step="2">
+          <div class="tl-dot"><span>2</span></div>
+          <div class="tl-card">
+            <div class="tl-visual">
+              <div class="analyze-viz" aria-hidden="true">
+                <div class="az-ring">
+                  <svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="36" fill="none" stroke="var(--border)" stroke-width="3"/><circle cx="40" cy="40" r="36" fill="none" stroke="var(--accent)" stroke-width="3" stroke-dasharray="180 226" class="az-progress"/></svg>
+                </div>
+                <div class="az-tags">
+                  <span class="az-tag">Hip-Hop</span>
+                  <span class="az-tag">142 BPM</span>
+                  <span class="az-tag">F min</span>
+                </div>
+              </div>
+            </div>
+            <h3>AI analyzes everything</h3>
+            <p>Genre, tempo, key, energy, arrangement structure — Soundboy builds a complete sonic fingerprint in seconds.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-step="3">
+          <div class="tl-dot"><span>3</span></div>
+          <div class="tl-card">
+            <div class="tl-visual">
+              <div class="process-viz" aria-hidden="true">
+                <div class="pv-knobs">
+                  <div class="pv-knob"><div class="pv-knob-ring"></div><span>EQ</span></div>
+                  <div class="pv-knob"><div class="pv-knob-ring"></div><span>Comp</span></div>
+                  <div class="pv-knob"><div class="pv-knob-ring"></div><span>Verb</span></div>
+                  <div class="pv-knob"><div class="pv-knob-ring"></div><span>Width</span></div>
+                </div>
+              </div>
+            </div>
+            <h3>Intelligent processing</h3>
+            <p>Context-aware EQ, compression, reverb, and imaging. Every parameter tuned to your specific audio — not a preset.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-step="4">
+          <div class="tl-dot"><span>4</span></div>
+          <div class="tl-card">
+            <div class="tl-visual">
+              <div class="export-viz" aria-hidden="true">
+                <div class="ev-check">✓</div>
+                <div class="ev-platforms">
+                  <span class="ev-plat active">Spotify</span>
+                  <span class="ev-plat">Apple</span>
+                  <span class="ev-plat">YouTube</span>
+                  <span class="ev-plat">WAV</span>
+                </div>
+              </div>
+            </div>
+            <h3>Export everywhere</h3>
+            <p>Platform-optimized mastering. Correct loudness, codec, metadata — one click for every service.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PRICING ===== -->
+    <section class="pricing" id="pricing" aria-label="Pricing">
+      <div class="section-header">
+        <p class="section-tag">Pricing</p>
+        <h2 class="section-title">Start free. <span class="accent">No catch.</span></h2>
+        <p class="section-sub">Beta is completely free. When we launch paid plans, early members get locked-in pricing.</p>
+      </div>
+
+      <div class="pricing-grid">
+        <div class="price-card">
+          <h3>Starter</h3>
+          <div class="price-amount">$0<span>/mo</span></div>
+          <p class="price-note">Free during beta</p>
+          <ul class="price-list">
+            <li>5 mixes per month</li>
+            <li>Stereo mix upload</li>
+            <li>AI analysis & suggestions</li>
+            <li>Basic Sound Memory (5 sessions)</li>
+            <li>MP3 export</li>
+          </ul>
+          <a href="#waitlist" class="btn btn-ghost btn-block">Get Started Free</a>
+        </div>
+
+        <div class="price-card price-pop">
+          <div class="price-badge">Best Value</div>
+          <h3>Pro</h3>
+          <div class="price-amount">$29<span>/mo</span></div>
+          <p class="price-note">Launching Q3 2026</p>
+          <ul class="price-list">
+            <li>Unlimited mixes</li>
+            <li>Multi-track stems</li>
+            <li>Stem separation</li>
+            <li>Natural language mixing</li>
+            <li>Full Sound Memory™ (unlimited)</li>
+            <li>Style Profile + Reference Library</li>
+            <li>WAV/FLAC lossless export</li>
+            <li>Platform mastering</li>
+          </ul>
+          <a href="#waitlist" class="btn btn-primary btn-block">Join Beta → Lock Price</a>
+        </div>
+
+        <div class="price-card">
+          <h3>Studio</h3>
+          <div class="price-amount">$79<span>/mo</span></div>
+          <p class="price-note">Launching Q4 2026</p>
+          <ul class="price-list">
+            <li>Everything in Pro</li>
+            <li>API access</li>
+            <li>Batch processing</li>
+            <li>Custom AI training on your mixes</li>
+            <li>Shared team Sound Memory</li>
+            <li>Priority queue</li>
+            <li>White-label exports</li>
+          </ul>
+          <a href="#waitlist" class="btn btn-ghost btn-block">Contact Us</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FOUNDER VISION ===== -->
+    <section class="vision" aria-label="Vision">
+      <div class="vision-inner">
+        <blockquote class="vision-quote">
+          "Every AI mixer I tried started from zero every single time. Same generic processing, no memory of what I actually like. I built Soundboy around the idea that your AI should <em>know you</em> — your preferences, your style, your history. Mix #1 is fast. Mix #50 feels like it's reading your mind."
+        </blockquote>
+        <div class="vision-author">
+          <div class="vision-avatar">JP</div>
+          <div>
+            <p class="vision-name">JP Leroy</p>
+            <p class="vision-role">Founder & Lead Engineer</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== WAITLIST CTA ===== -->
+    <section class="cta" id="waitlist" aria-label="Join waitlist">
+      <div class="cta-inner">
+        <div class="cta-content">
+          <h2 class="cta-title">Your next mix starts here.</h2>
+          <p class="cta-sub">Join the beta. It's free, it's fast, and you'll wonder how you mixed without it.</p>
+          <form class="cta-form" id="signup-form">
+            <div class="form-group">
+              <label for="s-name" class="sr-only">Name</label>
+              <input type="text" id="s-name" name="name" placeholder="Your name" required autocomplete="name">
+            </div>
+            <div class="form-group">
+              <label for="s-email" class="sr-only">Email</label>
+              <input type="email" id="s-email" name="email" placeholder="you@email.com" required autocomplete="email">
+            </div>
+            <button type="submit" class="btn btn-primary btn-block btn-glow">
+              <span>Join the Beta — It's Free →</span>
+            </button>
+          </form>
+          <p class="cta-fine">No credit card. Unsubscribe anytime. Early members get locked-in pricing when we launch.</p>
+        </div>
+
+        <!-- Visual reinforcement -->
+        <div class="cta-visual" aria-hidden="true">
+          <div class="cta-mockup-mini">
+            <div class="cmm-header">
+              <div class="cmm-dots"><span></span><span></span><span></span></div>
+            </div>
+            <div class="cmm-body">
+              <div class="cmm-wave"></div>
+              <div class="cmm-wave w2"></div>
+              <div class="cmm-wave w3"></div>
+              <div class="cmm-ai">✓ Mix complete — ready to export</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="nav-logo" aria-hidden="true">◉</span>
+        <span class="nav-name">Soundboy<span class="accent">.AI</span></span>
+        <p class="footer-tag">AI mixing that actually listens.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <a href="#features">Features</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#pricing">Pricing</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">About</a>
+        <a href="#">Blog</a>
+        <a href="mailto:hello@soundboy.ai">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Soundboy.AI</p>
+    </div>
+  </footer>
+
+  <noscript>
+    <style>
+      .hero-bg,.hero-particles,.mockup-spectrum,.scroll-cue{display:none}
+      .animate-on-scroll{opacity:1!important;transform:none!important}
+      [data-target]::after{content:attr(data-target)}
+      [data-target]{font-size:0}
+    </style>
+  </noscript>
+
+  <script src="src/main.js"></script>
+</body>
+</html>
